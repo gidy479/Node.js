@@ -1,26 +1,28 @@
-import { createServer } from 'http';
-import * as fs from 'fs';
+const express = require('express')
 
-const port = 5000;
+const server = express()
+const PORT = 5000
 
-const server = createServer((req, res) => {
- 
-  res.writeHead(200, { 'Content-Type': 'text/html' });
-  fs.readFile('index.html', (error, data) => {
-    if (error) {
-      res.writeHead(404);
-      res.write('Error: File Not Found');
-    } else {
-      res.write(data);
-    }
-    res.end();
-  });
-}); 
+//handlers
+const handleCreate = (req, res) =>{
+    res.send('Data is  created')
+}
+const handleRetrieve =(req, res) =>{
+    res.send('Data is  retrieved')
+}
+const handlePut =(req, res) =>{
+    res.send('Data is added')
+}
+const handleDelete =(req, res) =>{
+    res.send('Data is  deleted')
+}
 
-server.listen(port, (error) => {
-  if (error) {
-    console.log('Something went wrong', error)
-  } else {
-    console.log('Server is listening on port ' + port)
-  }
-});
+//routes and methods
+server.post("/", handleCreate);
+server.get("/about", handleRetrieve);
+server.put("/contact", handlePut);
+server.delete("/service", handleDelete);
+
+server.listen(PORT, ()=>{
+    console.log(`Server is running on http://localhost: ${PORT}`)
+})
